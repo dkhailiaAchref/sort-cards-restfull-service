@@ -1,0 +1,39 @@
+{
+  "exerciceId" : "5d9cb6c5975ac76570642fe0",
+  "dateCreation" : 1.5705515E12,
+  "name" : "cards",
+  "data" : {
+    "cards" : [ {
+      "value" : "EIGHT",
+      "category" : "DIAMOND"
+    }, {
+      "value" : "KING",
+      "category" : "DIAMOND"
+    }, {
+      "value" : "FIVE",
+      "category" : "HEART"
+    }, {
+      "value" : "SIX",
+      "category" : "HEART"
+    }, {
+      "value" : "JACK",
+      "category" : "HEART"
+    }, {
+      "value" : "FOUR",
+      "category" : "SPADE"
+    }, {
+      "value" : "NINE",
+      "category" : "SPADE"
+    }, {
+      "value" : "TEN",
+      "category" : "CLUB"
+    } ],
+    "categoryOrder" : [ "DIAMOND", "HEART", "SPADE", "CLUB" ],
+    "valueOrder" : [ "ACE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT", "NINE", "TEN", "JACK", "QUEEN", "KING" ]
+  },
+  "candidate" : {
+    "candidateId" : "57187b7c975adeb8520a283c",
+    "firstName" : "Othmane",
+    "lastName" : "QABLAOUI"
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "exerciceId": "5d9cb6c5975ac76570642fe0",
+  "dateCreation": 1570551493935,
+  "candidate": {
+    "candidateId": "57187b7c975adeb8520a283c",
+    "firstName": "Othmane",
+    "lastName": "QABLAOUI"
+  },
+  "data": {
+    "cards": [
+      {
+        "category": "HEART",
+        "value": "FOUR"
+      },
+      {
+        "category": "DIAMOND",
+        "value": "EIGHT"
+      },
+      {
+        "category": "HEART",
+        "value": "SIX"
+      },
+      {
+        "category": "SPADE",
+        "value": "FOUR"
+      },
+      {
+        "category": "DIAMOND",
+        "value": "KING"
+      },
+      {
+        "category": "DIAMOND",
+        "value": "NINE"
+      },
+      {
+        "category": "HEART",
+        "value": "FIVE"
+      },
+      {
+        "category": "CLUB",
+        "value": "TEN"
+      },
+      {
+        "category": "HEART",
+        "value": "JACK"
+      },
+      {
+        "category": "SPADE",
+        "value": "NINE"
+      }
+    ],
+    "categoryOrder": [
+      "DIAMOND",
+      "HEART",
+      "SPADE",
+      "CLUB"
+    ],
+    "valueOrder": [
+      "ACE",
+      "TWO",
+      "THREE",
+      "FOUR",
+      "FIVE",
+      "SIX",
+      "SEVEN",
+      "EIGHT",
+      "NINE",
+      "TEN",
+      "JACK",
+      "QUEEN",
+      "KING"
+    ]
+  },
+  "name": "cards"
+}
