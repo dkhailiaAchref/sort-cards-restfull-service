@@ -19,7 +19,8 @@
  <br>* config programmatically ( endpoint REST)
  <br>* with swagger2 feature , for documentation api
  <br></br>
-
+ * (aprés avoir  demarré le serveur embarqué de spring-web , par spring-boot:run )
+ , vous pourrez tester les apis suivants :
   <br>* Api getAllCards:</br>
    <a href="https://localhost:8443/getAllCards">https://localhost:8443/getAllCards </a>
  <br>* Api (sortCardsGame):</br>
