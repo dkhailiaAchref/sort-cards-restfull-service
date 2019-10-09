@@ -39,11 +39,45 @@ public class CardsGameService {
 
     @Value("${file.sorted.cards.game.path}")
     private String fileSortedCardsGamePath;
+
+    @Value("${url.cards.game.path}")
+    private String urlGetAllCards;
+
     @Autowired
     BaseDAO baseDAO;
 
+    //https://localhost:8443/getAllCards => ( test sur navigateur , Postman , ou , swagger )
+    //to call  :  https://recrutement.local-trust.com/test/cards/57187b7c975adeb8520a283c
+    public CardsGame getAllCardsGameRealAccess() {
 
-    public CardsGame getCardsGame() {
+        HttpHeaders requestHeaders = new HttpHeaders();
+        requestHeaders.set("Accept", "application/json");
+        HttpEntity<?> httpEntity = new HttpEntity<Object>(requestHeaders);
+        //UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("https://recrutement.local-trust.com").path("/test/cards/57187b7c975adeb8520a283c");
+        //String url = builder.toUriString();
+        String url  = urlGetAllCards;
+
+        ResponseEntity response = new ResponseEntity(HttpStatus.OK);
+        try {
+
+            log.info("send Rest GET Request URL={}", url);
+
+            response = baseDAO.getForObject(url,CardsGame.class);
+
+            //aprés la récuperation de la liste des cartes , on ecrit le contenu dans le fichier d'infos json (cardsGame.json)
+            // retrouver cette liste dans   "data" : { "cards" : [ { .......}]}
+            //.........
+
+        } catch (Exception e) {
+            log.error(" an error occured when get a cards ", e.getMessage());
+            e.printStackTrace();
+        }
+        return (CardsGame) response.getBody();
+
+    }
+
+
+    public CardsGame getCardsGameMockResponse() {
         CardsGame cardsGame = new CardsGame();
         try {
             cardsGame = JSONUtils.convertJsonFileToPojo(fileCardsGamePath, CardsGame.class);

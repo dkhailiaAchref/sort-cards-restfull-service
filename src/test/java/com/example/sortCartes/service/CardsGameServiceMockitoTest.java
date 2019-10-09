@@ -30,14 +30,14 @@ public class CardsGameServiceMockitoTest extends BaseTests {
     // ne pas acceder à l'implémentation réelle(@Mock mockCardsGameService),, pour ne pas  accéder à un reel WS
     @Test
     public void shouldGetAllCards() throws Exception {
-        when(this.mockCardsGameService.getCardsGame()).thenReturn(cardsGameFromFile);
+        when(this.mockCardsGameService.getAllCardsGameRealAccess()).thenReturn(cardsGameFromFile);
 
-        Object response = mockCardsGameService.getCardsGame();
+        Object response = mockCardsGameService.getAllCardsGameRealAccess();
         CardsGame returnedCardsGame = (CardsGame) response;
         assertionCardsGame(returnedCardsGame, cardsGameFromFile);
     }
 
-    // ne pas acceder à l'implémentation réelle (@Mock mockCardsGameService), pour ne pas  accéder à un reel WS
+    // ne pas acceder à l'implémentation réelle (@Mock mockCardsGameService)
     @Test
     public void shouldSortAllCards() throws Exception {
         when(this.mockCardsGameService.sortCardsGame(cardsGameFromFile)).thenReturn(sortedCardsGameFromFile);

@@ -46,7 +46,7 @@ public class CardsGameController {
     @ApiOperation(value = "Obtenir les cartes,(à tester sur le navigateur ou swagger")
     public @ResponseBody
     CardsGame getAllCards() {
-        return cardsGameService.getCardsGame();
+        return cardsGameService.getAllCardsGameRealAccess();
     }
 
     //https://localhost:8443/sortCardsGame => ( test sur navigateur , Postman , ou , swagger )

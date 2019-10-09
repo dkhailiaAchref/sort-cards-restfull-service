@@ -40,7 +40,7 @@ public class CardsGameControllerTest extends BaseTests {
     }
 
 
-    // ne pas acceder à l'implémentation réelle (@Mock mockCardsGameController), pour ne pas  accéder à un reel WS
+    // ne pas acceder à l'implémentation réelle (@Mock mockCardsGameController)
     @Test
     public void shouldSortAllCards() throws Exception {
         when(this.mockCardsGameController.sortCardsGame()).thenReturn(sortedCardsGameFromFile);
