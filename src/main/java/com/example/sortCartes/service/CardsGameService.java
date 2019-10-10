@@ -11,6 +11,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -42,6 +43,8 @@ public class CardsGameService {
 
     @Value("${url.cards.game.path}")
     private String urlGetAllCards;
+    @Value("${url.test.cards.game.path}")
+    private String urltestCardsGame;
 
     @Autowired
     BaseDAO baseDAO;
@@ -55,14 +58,14 @@ public class CardsGameService {
         HttpEntity<?> httpEntity = new HttpEntity<Object>(requestHeaders);
         //UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("https://recrutement.local-trust.com").path("/test/cards/57187b7c975adeb8520a283c");
         //String url = builder.toUriString();
-        String url  = urlGetAllCards;
+        String url = urlGetAllCards;
 
         ResponseEntity response = new ResponseEntity(HttpStatus.OK);
         try {
 
             log.info("send Rest GET Request URL={}", url);
 
-            response = baseDAO.getForObject(url,CardsGame.class);
+            response = baseDAO.getForObject(url, CardsGame.class);
 
             //aprés la récuperation de la liste des cartes , on ecrit le contenu dans le fichier d'infos json (cardsGame.json)
             // retrouver cette liste dans   "data" : { "cards" : [ { .......}]}
@@ -76,7 +79,6 @@ public class CardsGameService {
 
     }
 
-
     public CardsGame getCardsGameMockResponse() {
         CardsGame cardsGame = new CardsGame();
         try {
@@ -88,37 +90,119 @@ public class CardsGameService {
     }
 
 
-    public CardsGame sortCardsGame(CardsGame cardsGame) {
-        ArrayList<Card> SortedcardsGame = new ArrayList<>();
-        //indication sur l'ordre des valeurs et des categories  des cartes
+    public ArrayList<Integer> retrieveCardsValuesByCategory(CardsGame cardsGame, CategoryOrderEnum category) {
+        ArrayList<Integer> tabValuesForCategory = new ArrayList();
+        cardsGame.getData().getCards().stream()
+                .filter(card -> card.getCategory().equals(category))
+                .forEach(card -> tabValuesForCategory.add(card.getValue().getCode()));
+        return tabValuesForCategory;
+    }
+
+    public void printOrderValuesAndCategories(CardsGame cardsGame) {
         log.info("order Cards by values: ");
-        Arrays.stream(ValueOrderEnum.values())
-                .forEach(val -> {
+        cardsGame.getData().getValueOrder().stream().forEach(val -> {
             log.info(" " + val.getCode() + "\t-" + val.getLibelle());
         });
         log.info("order Cards by Category: ");
-        Arrays.stream(CategoryOrderEnum.values())
-    .forEach(val -> {
-            log.info("" + val.getCode() + "\t-" + val.getLibelle());
-        });
+        cardsGame.getData().getCategoryOrder().stream()
+                .forEach(val -> {
+                    log.info("" + val.getCode() + "\t-" + val.getLibelle());
+                });
 
-        // Stream Elements with duplicate map keys – Collectors.groupingBy()
-        //keep duplicated key is possible using the mergeFunction parameter of Collectors.toMap(keyMapper, valueMapper, mergeFunction):
-  /*      Map<ValueOrderEnum, CategoryOrderEnum> unsortedCards = cardsGame.getData().getCards().stream().collect(
-                Collectors.toMap( Card::getValue,
-                        Card::getCategory,  // "value": "FOUR", "category": "HEART"
-        (oldVal, newVal) -> {
-            log.info("duplicate key found!,keep old key");
-            return oldVal; //keep old key
+    }
+
+    public void printlistCards(ArrayList<Card> cards) {
+        if (cards != null && !cards.isEmpty()) {
+            cards.stream().forEach(card -> System.out.println("{" + card.getValue() + "," + card.getCategory() + "}"));
         }
-                ));*/
+    }
 
-        //  Map<ValueOrderEnum, CategoryOrderEnum> unsortedCards =  cardsGame.getData().getCards().stream().collect(Collectors.toMap(Card :: getValue, Card :: getCategory
-        //         , (oldValue, newValue) -> oldValue,LinkedHashMap::new));
+    /*  Sorting the cards based on the suit and then numbers.
+       This sorting is using Bucket Sort to sort the cards runtime= O(n) space=O(n);*/
+    public CardsGame sortCards(CardsGame cardsGame) {
+        //indication sur l'ordre des valeurs et des categories  des cartes
+        printOrderValuesAndCategories(cardsGame);
+        //affichage liste cartes (selon l'ordre d'arrivé
+        log.info("unsortedCards : \n" );
+        printlistCards(cardsGame.getData().getCards());
+
+        int nbCategories = CategoryOrderEnum.values().length;
+
+        //liste des categories order de taille (nbCartes=4)
+        ArrayList<CategoryOrderEnum> categoriesOrder = new ArrayList();
+        categoriesOrder = cardsGame.getData().getCategoryOrder();
+
+        //liste de valeurs par category , chacune de taille <=nbCartes=10 + tri des valeurs
+        // la somme des trailles des 4 listes  = 10 (nbCartes)
+        ArrayList<Integer> valuesForDiamont = new ArrayList();
+        valuesForDiamont = retrieveCardsValuesByCategory(cardsGame, CategoryOrderEnum.DIAMOND);
+        Collections.sort(valuesForDiamont);
+        ArrayList<Integer> valuesForHeart = new ArrayList();
+        valuesForHeart = retrieveCardsValuesByCategory(cardsGame, CategoryOrderEnum.HEART);
+        Collections.sort(valuesForHeart);
+        ArrayList<Integer> valuesForSpade = new ArrayList();
+        valuesForSpade = retrieveCardsValuesByCategory(cardsGame, CategoryOrderEnum.SPADE);
+        Collections.sort(valuesForSpade);
+        ArrayList<Integer> valuesForClub = new ArrayList();
+        valuesForClub = retrieveCardsValuesByCategory(cardsGame, CategoryOrderEnum.CLUB);
+        Collections.sort(valuesForClub);
+
+        ArrayList<Card> sortedCards = new ArrayList<>();
+        /***  |DIAMOND|HEART|SPADE|CLUB *****/
+        for (int j = 0; j < nbCategories; j++) {
+            Integer curentCategory = categoriesOrder.get(j).getCode();
+
+            switch (curentCategory) {
+                case 1: //DIAMOND
+                    if (valuesForDiamont != null && !valuesForDiamont.isEmpty()) {
+                        valuesForDiamont.stream().forEach(valForDiamont -> {
+                            sortedCards.add(new Card((ValueOrderEnum) EnumMappable.getEnumFromCode(valForDiamont, ValueOrderEnum.class), CategoryOrderEnum.DIAMOND));
+                        });
+                    }
+                    break;
+                case 2: //HEART
+                    if (valuesForHeart != null && !valuesForHeart.isEmpty()) {
+                        valuesForHeart.forEach(valForHeart -> {
+                            sortedCards.add(new Card((ValueOrderEnum) EnumMappable.getEnumFromCode(valForHeart, ValueOrderEnum.class), CategoryOrderEnum.HEART));
+                        });
+                    }
+                    break;
+                case 3: //SPADE
+                    if (valuesForSpade != null && !valuesForSpade.isEmpty()) {
+                        valuesForSpade.forEach(valForSpade -> {
+                            sortedCards.add(new Card((ValueOrderEnum) EnumMappable.getEnumFromCode(valForSpade, ValueOrderEnum.class), CategoryOrderEnum.SPADE));
+                        });
+                    }
+                    break;
+                case 4: //CLUB
+                    if (valuesForClub != null && !valuesForClub.isEmpty()) {
+                        valuesForClub.forEach(valForClub -> {
+                            sortedCards.add(new Card((ValueOrderEnum) EnumMappable.getEnumFromCode(valForClub, ValueOrderEnum.class), CategoryOrderEnum.CLUB));
+                        });
+                    }
+                    break;
+                default:
+                    break;
+            }// switch
+        }//for
+        //affichage cartes triées
+        log.info("sortedCards : \n" );
+        printlistCards(sortedCards);
+        //Màj liste des cartes triées dans la reponse (cardsGame), et le fichier local qui le définit(sortedCardsGame.json)
+        updateResponseBySortedCards(cardsGame, sortedCards);
+
+        return cardsGame;
+    }//sort
 
 
-        //  Map<ValueOrderEnum, CategoryOrderEnum> unsortedCards = cardsGame.getData().getCards().stream().collect(Collectors.toMap(Card :: getValue, Card :: getCategory));
+    public CardsGame sortCardsGame(CardsGame cardsGame) {
+        ArrayList<Card> sortedcardsGame = new ArrayList<>();
+        //indication sur l'ordre des valeurs et des categories  des cartes
+        printOrderValuesAndCategories(cardsGame);
+        //affichage liste cartes (selon l'ordre d'arrivé
+        printlistCards(cardsGame.getData().getCards());
 
+        //list To map
         Map<ValueOrderEnum, CategoryOrderEnum> unsortedCards = cardsGame.getData().getCards().stream()
                 .collect(Collectors.toMap(Card::getValue, Card::getCategory, (existingValue, newValue) -> existingValue));
         log.info("unsortedCards : " + unsortedCards);
@@ -145,34 +229,42 @@ public class CardsGameService {
             Card cardToAdd = new Card();
             cardToAdd.setValue(map.getKey());
             cardToAdd.setCategory(map.getValue());
-            SortedcardsGame.add(cardToAdd);
+            sortedcardsGame.add(cardToAdd);
         });
-        cardsGame.getData().getCards().clear(); //clear previous content of cards
-
-        cardsGame.getData().getCards().addAll(SortedcardsGame); //add  new sorted list of cards
-
-        //aprés tri de la liste des cartes , on ecrit le nouveau contenu dans le fichier d'infos json (sortedCardsGame.json)
-        // retrouver cette liste dans   "data" : { "cards" : [ { .......}]}
-        writeJsonFileFromPojo(fileSortedCardsGamePath, cardsGame);
-
+        //affichage cartes triées
+        printlistCards(sortedcardsGame);
+        //Màj liste des cartes triées dans la reponse (cardsGame), et le fichier local qui le définit(sortedCardsGame.json)
+        updateResponseBySortedCards(cardsGame, sortedcardsGame);
 
         return cardsGame;
 
     }
 
 
-    // connect to url POST (https://localhost:8443/testGame), to call , https://recrutement.local-trust.com/test/{exerciceId}
-    public Object testGame(Data data,String exerciceId) {
+    public void updateResponseBySortedCards(CardsGame cardsGame, ArrayList<Card> Sortedcards) {
+
+        cardsGame.getData().getCards().clear(); //clear previous content of cards
+
+        cardsGame.getData().getCards().addAll(Sortedcards); //add  new sorted list of cards
+
+        //aprés tri de la liste des cartes , on ecrit le nouveau contenu dans le fichier d'infos json (sortedCardsGame.json)
+        // retrouver cette liste dans   "data" : { "cards" : [ { .......}]}
+        writeJsonFileFromPojo(fileSortedCardsGamePath, cardsGame);
+
+    }
+
+    // connect to url POST (https://localhost:8443/testGame/exerciceId), to call , https://recrutement.local-trust.com/test/{exerciceId}
+    public Object testGame(Data data, String exerciceId) {
         ResponseEntity<String> response = new ResponseEntity<>(HttpStatus.OK);
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             //https://recrutement.local-trust.com/test/{exerciceId}
-            UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("https://recrutement.local-trust.com").path("/test/" + exerciceId);
-            String url = builder.toUriString();
+            String url =urltestCardsGame+exerciceId;
+
             HttpEntity<String> entityRequestBody = new HttpEntity<String>(convertCompositePOJOToJsonString(data), headers);
 
-            log.info("send Rest POST Request URL={}", builder.toUriString());
+            log.info("send Rest POST Request URL={}", url);
 
             response = baseDAO.postForObjectWithStringResponse(entityRequestBody, url);
 

@@ -1,6 +1,6 @@
 package com.example.sortCartes.dto;
 
-public enum CategoryOrderEnum  {
+public enum CategoryOrderEnum implements EnumMappable  {
     DIAMOND(1,"DIAMOND"),
     HEART(2,"HEART"),
     SPADE(3,"SPADE"),

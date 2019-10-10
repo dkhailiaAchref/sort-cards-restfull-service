@@ -5,6 +5,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Card {
 
+    public Card(ValueOrderEnum value, CategoryOrderEnum category) {
+        this.value = value;
+        this.category = category;
+    }
+
+    public Card() {
+    }
 
     ValueOrderEnum value;
     CategoryOrderEnum category;

@@ -1,31 +1,37 @@
 {
-  "exerciceId" : "5d9cb6c5975ac76570642fe0",
-  "dateCreation" : 1.5705515E12,
+  "exerciceId" : "5d9f7d6c975ac76570642fe7",
+  "dateCreation" : 1.57073342E12,
   "name" : "cards",
   "data" : {
     "cards" : [ {
+      "value" : "SIX",
+      "category" : "DIAMOND"
+    }, {
       "value" : "EIGHT",
+      "category" : "DIAMOND"
+    }, {
+      "value" : "TEN",
+      "category" : "DIAMOND"
+    }, {
+      "value" : "JACK",
       "category" : "DIAMOND"
     }, {
       "value" : "KING",
       "category" : "DIAMOND"
     }, {
-      "value" : "FIVE",
-      "category" : "HEART"
-    }, {
-      "value" : "SIX",
-      "category" : "HEART"
-    }, {
       "value" : "JACK",
       "category" : "HEART"
     }, {
-      "value" : "FOUR",
+      "value" : "JACK",
       "category" : "SPADE"
+    }, {
+      "value" : "FIVE",
+      "category" : "CLUB"
     }, {
       "value" : "NINE",
-      "category" : "SPADE"
+      "category" : "CLUB"
     }, {
-      "value" : "TEN",
+      "value" : "QUEEN",
       "category" : "CLUB"
     } ],
     "categoryOrder" : [ "DIAMOND", "HEART", "SPADE", "CLUB" ],

@@ -40,7 +40,7 @@ public class CardsGameServiceMockitoTest extends BaseTests {
     // ne pas acceder à l'implémentation réelle (@Mock mockCardsGameService)
     @Test
     public void shouldSortAllCards() throws Exception {
-        when(this.mockCardsGameService.sortCardsGame(cardsGameFromFile)).thenReturn(sortedCardsGameFromFile);
+        when(this.mockCardsGameService.sortCards(cardsGameFromFile)).thenReturn(sortedCardsGameFromFile);
 
         Object response = mockCardsGameService.sortCardsGame(cardsGameFromFile);
         CardsGame returnedCardsGame = (CardsGame) response;
@@ -53,7 +53,7 @@ public class CardsGameServiceMockitoTest extends BaseTests {
     @Test
     public void shouldSortAllCardsRealAccess() throws Exception {
 
-        Object response = cardsGameService.sortCardsGame(cardsGameFromFile);
+        Object response = cardsGameService.sortCards(cardsGameFromFile);
         CardsGame returnedCardsGame = (CardsGame) response;
         assertionCardsGame(returnedCardsGame, sortedCardsGameFromFile);
 

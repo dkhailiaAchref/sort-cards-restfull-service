@@ -1,6 +1,6 @@
 {
-  "exerciceId": "5d9cb6c5975ac76570642fe0",
-  "dateCreation": 1570551493935,
+  "exerciceId": "5d9f7d6c975ac76570642fe7",
+  "dateCreation": 1570733420949,
   "candidate": {
     "candidateId": "57187b7c975adeb8520a283c",
     "firstName": "Othmane",
@@ -9,20 +9,16 @@
   "data": {
     "cards": [
       {
-        "category": "HEART",
-        "value": "FOUR"
-      },
-      {
         "category": "DIAMOND",
-        "value": "EIGHT"
-      },
-      {
-        "category": "HEART",
-        "value": "SIX"
+        "value": "JACK"
       },
       {
         "category": "SPADE",
-        "value": "FOUR"
+        "value": "JACK"
+      },
+      {
+        "category": "CLUB",
+        "value": "QUEEN"
       },
       {
         "category": "DIAMOND",
@@ -30,22 +26,26 @@
       },
       {
         "category": "DIAMOND",
-        "value": "NINE"
-      },
-      {
-        "category": "HEART",
-        "value": "FIVE"
-      },
-      {
-        "category": "CLUB",
-        "value": "TEN"
+        "value": "SIX"
       },
       {
         "category": "HEART",
         "value": "JACK"
       },
       {
-        "category": "SPADE",
+        "category": "CLUB",
+        "value": "FIVE"
+      },
+      {
+        "category": "DIAMOND",
+        "value": "TEN"
+      },
+      {
+        "category": "DIAMOND",
+        "value": "EIGHT"
+      },
+      {
+        "category": "CLUB",
         "value": "NINE"
       }
     ],

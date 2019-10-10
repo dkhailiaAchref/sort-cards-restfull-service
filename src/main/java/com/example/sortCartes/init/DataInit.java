@@ -12,7 +12,7 @@ import java.io.File;
 public class DataInit  {
 
 
-    static String TARGET_FILE_CARDS_GAME= "src/test/resources" + File.separator + "cardsGame.json";
+    static String TARGET_FILE_CARDS_GAME= "src/main/resources" + File.separator + "cardsGame.json";
 
 
     public static CardsGame getCardsGameFromLocalFile() {

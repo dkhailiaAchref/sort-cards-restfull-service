@@ -46,7 +46,7 @@ public class CardsGameController {
     @ApiOperation(value = "Obtenir les cartes,(à tester sur le navigateur ou swagger")
     public @ResponseBody
     CardsGame getAllCards() {
-        return cardsGameService.getAllCardsGameRealAccess();
+        return cardsGameService.getCardsGameMockResponse();
     }
 
     //https://localhost:8443/sortCardsGame => ( test sur navigateur , Postman , ou , swagger )
@@ -55,13 +55,13 @@ public class CardsGameController {
     public @ResponseBody
     CardsGame sortCardsGame() {
         CardsGame cardsGameLocal = DataInit.getCardsGameFromLocalFile();
-        return cardsGameService.sortCardsGame(cardsGameLocal);
+        return cardsGameService.sortCards(cardsGameLocal);
     }
 
-    // connect to url POST (https://localhost:8443/testGame), to call , https://recrutement.local-trust.com/test/{exerciceId}
-    //tester avec requette 'POST' sur (Postman ou swagger) , avec le body json, ecrit dans le fichier (cardsGame.json)
+    // connect to url POST (https://localhost:8443/testGame/exerciceId), to call , https://recrutement.local-trust.com/test/{exerciceId}
+    //tester avec requette 'POST' sur (Postman ou swagger) , avec le body json, ecrit dans le fichier (sortedCardsGame.json)
     // retrouver cette liste dans   "data" : { "cards" : [ { .......}]}
-    @RequestMapping(value = "/testGame", method = RequestMethod.POST)
+    @RequestMapping(value = "/testGame/{exerciceId}", method = RequestMethod.POST)
     @ApiOperation(value = "tester le resultat de tri des cartes ")
     public @ResponseBody
     Object testGame(@RequestBody Data data,@PathVariable String exerciceId) {
