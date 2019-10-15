@@ -22,16 +22,17 @@
  * (aprés avoir  demarré le serveur embarqué de spring-web , par spring-boot:run )
  , vous pourrez tester les apis suivants :
   <br>* Api GET, getAllCards:</br>
-   <a href="https://localhost:8443/getAllCards">https://localhost:8443/getAllCards </a>
+   <a href="http://localhost:8443/getAllCards">http://localhost:8443/getAllCards </a>
  <br>* Api GET, (sortCardsGame):</br>
-  <a href="https://localhost:8443/sortCardsGame"> https://localhost:8443/sortCardsGame</a>
+  <a href="http://localhost:8443/sortCardsGame">http://localhost:8443/sortCardsGame </a>
   <br>* Api POST, (testCardsGame):<br>
  <br>* tester avec requette 'POST' sur (Postman ou swagger) , avec le body json, ecrit dans le fichier (sortedCardsGame.json)
   ,retrouver cette liste dans   "data" : { "cards" : [ { .......}]}
   <br>*
-   <a href="https://localhost:8443/testGame/exerciceId"> https://localhost:8443/testGame/exerciceId</a>
+   <a href="http://localhost:8443/testGame/exerciceId"> http://localhost:8443/testGame/exerciceId</a>  
  <br>* Swagger :</br>
-  <a href="https://localhost:8443/swagger-ui.html#">  https://localhost:8443/swagger-ui.html#</a>
+  <a href="http://localhost:8443/swagger-ui.html#">  http://localhost:8443/swagger-ui.html#</a>
+
   <br>
   <br> * description d"taillée du besoin :
  <br> On souhaite développer un jeu de carte.
